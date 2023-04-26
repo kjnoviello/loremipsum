@@ -1,0 +1,1 @@
+echo lorenipsum-1.txt tiene $(wc -l <loremipsum-1.txt) lineas
