@@ -300,7 +300,10 @@ carrito.agregarProducto('AA92LKI', 8);      // agrego 8 unidades de un producto 
 // }
 
 
+
 // Probando eliminar un producto ya agregago al carrito.
+// SE PONE UN TIMEOUT A MODO DE EJEMPLO PARA SEGUIR CON UN ORDEN EN EL CARRITO A MODO DE EJEMPLO
+
 setTimeout(() => {
     const promesaEliminarProducto = carrito.eliminarProducto('XX92LKI', 2);     //// elimino 2 unidades de arroz previamente agregados
     promesaEliminarProducto
@@ -317,6 +320,8 @@ setTimeout(() => {
 
 
 // Probando eliminar un producto que no existe.
+// SE PONE UN TIMEOUT A MODO DE EJEMPLO PARA SEGUIR CON UN ORDEN EN EL CARRITO A MODO DE EJEMPLO
+
 setTimeout(() => {
     const promesaEliminarProductoInexistente = carrito.eliminarProducto('TT92LKI', 2);     //// elimino 2 unidades de un producto inexistente
     promesaEliminarProductoInexistente
