@@ -234,7 +234,7 @@ class Carrito {
                 // this.productos.splice(positionExisteProducto, 1);
                 existeProducto.cantidad -= cantidad;
                 console.log("cantidad del producto luego de modificarlo: ", existeProducto.cantidad);
-                return resolve(sku)
+                resolve(sku)
                 
             // si la cantidad a eliminar es mayor o igual que lo que hay en el producto se elimina el producto y la categoria
             } else if (existeProducto && existeProducto.cantidad <= cantidad){
@@ -245,7 +245,7 @@ class Carrito {
                 const positionExisteCategoria = this.categorias.indexOf(producto.categoria);
                 this.categorias.splice(positionExisteCategoria, 1);
                 console.log("categorias luego de eliminar todas las unidades del producto: ", this.categorias);
-                return resolve(sku)
+                resolve(sku)
     
             // si no hay producto en el carrito
             } else {
