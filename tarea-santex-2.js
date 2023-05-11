@@ -217,12 +217,12 @@ class Carrito {
     async eliminarProducto(sku, cantidad) {
         console.log(`Eliminando ${cantidad} ${sku}`);
 
-        try {
-            // busco el producto en la "base de datos"
-            const producto = await findProductBySku(sku);
-            console.log("el producto encontrado a modificar es: ", producto.nombre, producto.sku);
+        // busco el producto en la "base de datos"
+        const producto = await findProductBySku(sku);
+        console.log("el producto encontrado a modificar es: ", producto.nombre, producto.sku);
             
-    
+        new Promise((resolve, reject) => {
+            
             // me fijo si el producto ya existe
             const existeProducto = this.productos.find(item => item.sku === sku);
             console.log("cantidad del producto en el carrito: ", existeProducto.cantidad);
@@ -244,21 +244,18 @@ class Carrito {
                 const positionExisteCategoria = this.categorias.indexOf(producto.categoria);
                 this.categorias.splice(positionExisteCategoria, 1);
                 console.log("categorias luego de eliminar todas las unidades del producto: ", this.categorias);
+                resolve(foundProduct)
     
             // si no hay producto en el carrito
             } else {
-                console.log("no hay tal producto");
+                reject(`error dentro del reject`)
             };
 
             // se modifica el precio
             this.precioTotal = this.precioTotal - (producto.precio * cantidad);
             console.log("El carrito despues de eliminar el producto queda conformado por: ", carrito.productos,);
-            console.log("el precio total en el carrito es de: ", carrito.precioTotal);
-
-        // manejo del error al no econtrar un producto
-        } catch (err) {
-            console.error("Errorrrrrr, no se puede eliminar un producto que no fue agregado,", err);
-        };
+            console.log("el precio total en el carrito es de: ", carrito.precioTotal);  
+        });
     };
 };
 
@@ -296,9 +293,39 @@ carrito.agregarProducto('KS944RUR', 1);     // agrego 1 unidad de queso, de nuev
 carrito.agregarProducto('AA92LKI', 8);      // agrego 8 unidades de un producto que no existe
 
 
-// al eliminar un producto lo puse dentro de un timeout para simular que primero se agrega y despues se elimina
+// funcion de then comentada pero escrita para probar arrow (no darle importancia)
+// const funcionThen = (sku) => {
+//     console.log(`dentro de la funcion then `, sku);
+// }
+
+
+// Probando eliminar un producto ya agregago al carrito.
 setTimeout(() => {
-    console.log("el carrito antes de modificarse esta conformado por: ", carrito);
-    carrito.eliminarProducto('XX92LKI', 2);      // elimino 2 unidades de arroz previamente agregados
-    carrito.eliminarProducto('MM763KK', 1);      // elimino 1 unidad de un producto que no existe
-}, 2000);
+    const promesaEliminarProducto = carrito.eliminarProducto('XX92LKI', 2);     //// elimino 2 unidades de arroz previamente agregados
+    promesaEliminarProducto
+        .then((foundProduct) => {
+            console.log(`dentro del metodo then `, foundProduct);
+        })
+        .catch((sku) => {
+            console.log(`dentro del metodo catch `, sku);
+        })
+        .finally(() => {
+            console.log("dentro de finally");
+        });
+}, 3000);
+
+
+// Probando eliminar un producto que no existe.
+setTimeout(() => {
+    const promesaEliminarProductoInexistente = carrito.eliminarProducto('TT92LKI', 2);     //// elimino 2 unidades de un producto inexistente
+    promesaEliminarProductoInexistente
+        .then((sku) => {
+            console.log(`dentro del metodo then `, sku);
+        })
+        .catch((sku) => {
+            console.log(`dentro del metodo catch `, sku);
+        })
+        .finally(() => {
+            console.log("dentro de finally");
+        });
+}, 6000);
