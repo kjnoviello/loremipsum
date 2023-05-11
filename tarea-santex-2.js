@@ -221,7 +221,7 @@ class Carrito {
         const producto = await findProductBySku(sku);
         console.log("el producto encontrado a modificar es: ", producto.nombre, producto.sku);
             
-        new Promise((resolve, reject) => {
+        return new Promise((resolve, reject) => {
             
             // me fijo si el producto ya existe
             const existeProducto = this.productos.find(item => item.sku === sku);
@@ -234,7 +234,7 @@ class Carrito {
                 // this.productos.splice(positionExisteProducto, 1);
                 existeProducto.cantidad -= cantidad;
                 console.log("cantidad del producto luego de modificarlo: ", existeProducto.cantidad);
-                resolve(sku)
+                return resolve(sku)
                 
             // si la cantidad a eliminar es mayor o igual que lo que hay en el producto se elimina el producto y la categoria
             } else if (existeProducto && existeProducto.cantidad <= cantidad){
@@ -245,7 +245,7 @@ class Carrito {
                 const positionExisteCategoria = this.categorias.indexOf(producto.categoria);
                 this.categorias.splice(positionExisteCategoria, 1);
                 console.log("categorias luego de eliminar todas las unidades del producto: ", this.categorias);
-                resolve(sku)
+                return resolve(sku)
     
             // si no hay producto en el carrito
             } else {
@@ -255,7 +255,7 @@ class Carrito {
             // se modifica el precio
             this.precioTotal = this.precioTotal - (producto.precio * cantidad);
             console.log("El carrito despues de eliminar el producto queda conformado por: ", carrito.productos,);
-            console.log("el precio total en el carrito es de: ", carrito.precioTotal);  
+            console.log("el precio total en el carrito es de: ", carrito.precioTotal);
         });
     };
 };
@@ -308,7 +308,7 @@ setTimeout(() => {
     const promesaEliminarProducto = carrito.eliminarProducto('XX92LKI', 2);     //// elimino 2 unidades de arroz previamente agregados
     promesaEliminarProducto
         .then((sku) => {
-            console.log(`dentro del metodo then `, sku, ` <-----------NO SE PORQUE ME APARECE COMO UNDEFINED`);
+            console.log(`dentro del metodo then `, sku);
         })
         .catch((sku) => {
             console.log(`dentro del metodo catch `, sku);
