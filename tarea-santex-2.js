@@ -186,6 +186,7 @@ class Carrito {
         try {
             // Busco el producto en la "base de datos"
             const producto = await findProductBySku(sku);
+            console.log(`El producto agregado es ${producto.sku}`);
             
             // me fijo si el producto ya existe
             const existeProducto = this.productos.find(item => item.sku === sku);
@@ -198,18 +199,20 @@ class Carrito {
             } else {
                 const nuevoProducto = new ProductoEnCarrito(sku, producto.nombre, cantidad);
                 this.productos.push(nuevoProducto);
-                // this.categorias.push(producto.categoria);
                 if (!this.categorias.includes(producto.categoria)) {
                     this.categorias.push(producto.categoria);}
             };
 
             // se modifica el precio
             this.precioTotal = this.precioTotal + (producto.precio * cantidad);
-
-        // manejo del error al no econtrar un producto
+            console.log(`el carrito queda conformado por los productos agregados`, carrito.productos);
+            console.log(`El precio total del carrito al agregar el producto es de ${this.precioTotal}`);
+            
+            // manejo del error al no econtrar un producto
         } catch (err) {
             console.log(`Errorrrrrrr al agregar,`, err);
         };
+
     };
 
 
