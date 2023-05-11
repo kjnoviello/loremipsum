@@ -220,7 +220,7 @@ class Carrito {
         try {
             // busco el producto en la "base de datos"
             const producto = await findProductBySku(sku);
-            console.log("el producto encontrado a modificar es: ", producto);
+            console.log("el producto encontrado a modificar es: ", producto.nombre, producto.sku);
             
     
             // me fijo si el producto ya existe
@@ -244,7 +244,6 @@ class Carrito {
                 const positionExisteCategoria = this.categorias.indexOf(producto.categoria);
                 this.categorias.splice(positionExisteCategoria, 1);
                 console.log("categorias luego de eliminar todas las unidades del producto: ", this.categorias);
-    
     
             // si no hay producto en el carrito
             } else {
@@ -301,5 +300,5 @@ carrito.agregarProducto('AA92LKI', 8);      // agrego 8 unidades de un producto 
 setTimeout(() => {
     console.log("el carrito antes de modificarse esta conformado por: ", carrito);
     carrito.eliminarProducto('XX92LKI', 2);      // elimino 2 unidades de arroz previamente agregados
-    carrito.eliminarProducto('MM763KK', 1);      // elimino 1 unidades de un producto que no existe
+    carrito.eliminarProducto('MM763KK', 1);      // elimino 1 unidad de un producto que no existe
 }, 2000);
